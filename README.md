@@ -3,7 +3,7 @@
 ## Equipo de desarrollo
 
 - Victor Bertolini
-- Octavio
+- Octavio Vasconcellos
 - Ivan Angel Medina
 
 ## Capturas
