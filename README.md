@@ -2,9 +2,9 @@
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+- Victor Bertolini
+- Octavio
+- Ivan Angel Medina
 
 ## Capturas
 
