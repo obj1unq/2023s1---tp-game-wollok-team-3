@@ -2,7 +2,7 @@
 
 ## Equipo de desarrollo
 
-- Victor Bertolini
+- Victor H. Bertolini Agaras
 - Octavio Vasconcellos
 - Ivan Angel Medina
 
