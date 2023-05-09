@@ -1,8 +1,18 @@
 import wollok.game.*
-import pepita.*
+import cursor.*
 
 program juego {
-	game.title("Juego Base")
-	game.addVisual(pepita)
+	game.title("Buscaminas")
+	game.addVisualCharacter(cursor)
+	
+	//Configuramos el nivel
+	game.cellSize(32)
+	game.width(10)
+	game.height(10)
+	
+	//Establecemos los controles
+	keyboard.space().onPressDo { game.say(cursor, "Revelar Celda (IMPLEMENTAR)")}
+	
+	
 	game.start()
 }
