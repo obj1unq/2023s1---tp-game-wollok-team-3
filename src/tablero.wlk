@@ -1,3 +1,5 @@
+import wollok.game.*
+
 class Tablero {
 
 	const ancho = null // Número.
@@ -24,7 +26,6 @@ class Tablero {
 	method ponerMinas() {
 		self.verificarTotalDeMinas()
 		minasTotal.times{ n => self.ponerUnaMina()}
-	// self.ponerNumeros()
 	}
 
 	method verificarTotalDeMinas() {
@@ -34,25 +35,27 @@ class Tablero {
 	}
 
 	method ponerUnaMina() {
-		const xRandom = (0.randomUpTo(ancho - 1)).truncate(0)
-		const yRandom = (0.randomUpTo(largo - 1)).truncate(0)
-		if (not celdasConMinas.contains([ xRandom, yRandom ])) {
-			// celdasVacias.remove([ xRandom, yRandom ])
-			// new Celda(conMina = true, position = game.at(xRandom, yRandom)...)
-			celdasConMinas.add([ xRandom, yRandom ])
-		} else {
-			self.ponerUnaMina()
+		const celdaAleatoria = celdasVacias.anyOne() // Una coordenada de celda aleatoria.
+			// new Celda(conMina = true, position = game.at(celda.first(), celda.last())...)
+		celdasConMinas.add(celdaAleatoria)
+		celdasVacias.remove(celdaAleatoria)
+	}
+
+	/* method ponerNumeros() {
+	 * 		celdasVacias.forEach({...}) // Se pretende que cada elemento de 'celdasVacias' actúe en funcion de la lista 'celdasConMinas'
+	 */
+	method validarTablero() {
+		if (game.width() < ancho or game.height() < largo) {
+			self.error("El ancho y/o largo configurados de Wollok Game no satisface los requisitos del tablero.")
 		}
 	}
 
-/* method ponerNumeros() {
- * 		celdasVacias.forEach({...})
- */
- 
 	method preparar() {
+		self.validarTablero()
 		self.ponerCeldas()
 		self.ponerMinas()
-		// self.ponerNumeros()
+	// self.ponerNumeros()
 	}
+
 }
 
