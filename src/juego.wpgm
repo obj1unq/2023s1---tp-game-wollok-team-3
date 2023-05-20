@@ -7,9 +7,9 @@ program juego {
 	game.addVisualCharacter(cursor)
 	game.cellSize(32)
 	
-	var facil = new Tablero(ancho = game.width(10), largo = game.height(10), minasTotal = 20)
-	var medio = new Tablero(ancho = game.width(15), largo = game.height(20), minasTotal = 35)
-	var dificil = new Tablero(ancho = game.width(20), largo = game.height(30), minasTotal = 50)
+	var facil = new Tablero(ancho = 10, largo = 10, minasTotal = 20)
+	var medio = new Tablero(ancho = 15, largo = 20, minasTotal = 35)
+	var dificil = new Tablero(ancho = 20, largo = 30, minasTotal = 50)
 	
 	juego.configurar(medio)
 	

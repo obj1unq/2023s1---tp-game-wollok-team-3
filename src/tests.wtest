@@ -1,6 +1,97 @@
+import tablero.*
+import coordenadas.*
 
-test "testX" {
+/* Para que este test funcione, se debe agregar los 'property' a ambas variables del objeto 'listaDeCoordenadas',
+	 * asi como tambien eliminar los getters de las mismas. La razón por las cuales no son 'property' es porque las listas
+	 * se generan y cambian solamente por acciones del tablero. Se toma la libertad de agregarles el 'property' para elegir
+	 * coordenadas que representan celdas con minas más concretamente unicamente para este test, ya que el tablero se encarga
+	 * de elegir coordenadas al azar.
+	 * 
+	 */
 
-	assert.that(true)
-
+describe "Tests de minas y números" {
+	
+	const unTablero = new Tablero(ancho = 10, largo = 10, minasTotal = 20)
+	
+	/*
+	 * 9	[x]	[2]	[x]	[2]	[-]	[-]	[1]	[1]	[x]	[2]
+	 * 8	[1]	[1]	[2]	[x]	[1]	[1]	[x]	[2]	[2]	[x]
+	 * 7	[-]	[-]	[1]	[1]	[1]	[1]	[1]	[1]	[-]	[2]
+	 * 6	[1]	[1]	[1]	[-]	[-]	[-]	[-]	[-]	[1]	[x]
+	 * 5	[1]	[x]	[1]	[-]	[1]	[1]	[1]	[-]	[1]	[2]
+	 * 4	[1]	[3]	[3]	[2]	[2]	[x]	[2]	[1]	[1]	[x]
+	 * 3	[1]	[x]	[x]	[2]	[x]	[3]	[x]	[2]	[2]	[2]
+	 * 2	[1]	[2]	[3]	[4]	[3]	[4]	[3]	[x]	[2]	[x]
+	 * 1	[-]	[-]	[1]	[x]	[x]	[2]	[x]	[3]	[3]	[1]
+	 * 0	[-]	[-]	[1]	[2]	[2]	[2]	[1]	[-]	[x]	[-]
+	 * 		 0	 1	 2	 3	 4	 5	 6	 7	 8	 9
+	 */
+	
+	method initialize() {
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [8, 9])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [2, 9])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [2, 3])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [9, 6])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [9, 4])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [4, 3])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [1, 3])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [1, 5])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [4, 1])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [3, 8])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [3, 1])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [8, 0])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [6, 8])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [7, 2])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [9, 8])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [0, 9])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [5, 4])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [6, 3])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [6, 1])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [9, 2])
+	}
+	
+	test "Hay mina al N de [2, 2]" {
+		assert.equals(1, unTablero.hayMinaAl([2, 2], norte))
+	}
+	
+	test "Hay mina al NE de [5, 7]" {
+		assert.equals(1, unTablero.hayMinaAl([5, 7], noreste))
+	}
+	
+	test "Hay mina al E de [8, 4]" {
+		assert.equals(1, unTablero.hayMinaAl([8, 4], este))
+	}
+	
+	test "Hay mina al SE de [4, 5]" {
+		assert.equals(1, unTablero.hayMinaAl([4, 5], sureste))
+	}
+	
+	test "Hay mina al S de [9, 9]" {
+		assert.equals(1, unTablero.hayMinaAl([9, 9], sur))
+	}
+	
+	test "Hay mina al SO de [9, 1]" {
+		assert.equals(1, unTablero.hayMinaAl([9, 1], suroeste))
+	}
+	
+	test "Hay mina al O de [9, 0]" {
+		assert.equals(1, unTablero.hayMinaAl([9, 0], oeste))
+	}
+	
+	test "Hay mina al NO de [7, 7]" {
+		assert.equals(1, unTablero.hayMinaAl([7, 7], noroeste))
+	}
+	
+	test "Hay 2 minas alrededor de [2, 8]" {
+		assert.equals(2, unTablero.minasAlrededorDe([2, 8]))
+	}
+	
+	test "Hay 3 minas alrededor de [5, 3]" {
+		assert.equals(3, unTablero.minasAlrededorDe([5, 3]))
+	}
+	
+	test "Hay 4 minas alrededor de [3, 2]" {
+		assert.equals(4, unTablero.minasAlrededorDe([3, 2]))
+	}
+	
 }
