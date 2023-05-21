@@ -11,7 +11,8 @@ program juego {
 	game.height(10)
 	
 	//Establecemos los controles
-	keyboard.space().onPressDo { game.say(cursor, "Revelar Celda (IMPLEMENTAR)")}
+	keyboard.space().onPressDo { cursor.revelarCelda()}
+	keyboard.m().onPressDo { cursor.marcarCelda()}
 	
 	
 	game.start()
