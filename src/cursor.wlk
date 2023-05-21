@@ -8,15 +8,20 @@ object cursor {
 	
 	method image() = "cursor.png"
 	
-	method move(nuevaPosicion) {
-		self.position(nuevaPosicion)	
-	}	
 
-	method revelarCeldaEn(posicion){
+	method revelarCelda(){
 		
-		//TODO:
-		// Aca deberia conectar con la celda en la posicion actual del cursor
-		// y cambiarle el estado? 
+		//Siempre colisiono con una celda en mi posicion
+		game.uniqueCollider(self).revelar()
+
+		
+	}
+
+	method marcarCelda(){
+		
+		//Siempre colisiono con una celda en mi posicion
+		game.uniqueCollider(self).marcada()
+
 		
 	}
 
