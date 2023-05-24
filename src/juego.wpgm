@@ -1,14 +1,17 @@
 import wollok.game.*
 import cursor.*
+import tablero.*
 
 program juego {
 	game.title("Buscaminas")
 	game.addVisualCharacter(cursor)
-	
-	//Configuramos el nivel
 	game.cellSize(32)
-	game.width(10)
-	game.height(10)
+	
+	var facil = new Tablero(ancho = 10, largo = 10, minasTotal = 20)
+	var medio = new Tablero(ancho = 15, largo = 20, minasTotal = 35)
+	var dificil = new Tablero(ancho = 20, largo = 30, minasTotal = 50)
+	
+	juego.configurar(medio)
 	
 	//Establecemos los controles
 	keyboard.space().onPressDo { cursor.revelarCelda()}
