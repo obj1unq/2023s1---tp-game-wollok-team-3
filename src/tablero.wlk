@@ -1,3 +1,4 @@
+// import celda.*
 import coordenadas.*
 import wollok.game.*
 
@@ -8,9 +9,11 @@ class Tablero {
 	const minasTotal = 0 // Número
 	const celdasDelTablero = [] // [Celda]
 	
-	method celdasDelTablero() { // Getter
-		return celdasDelTablero
-	}
+	method ancho() = ancho
+	
+	method largo() = largo
+	
+	method celdasDelTablero() = celdasDelTablero
 
 	method prepararCeldas() {
 		(ancho * largo).times{ n => self.prepararUnaCelda()}
@@ -45,7 +48,8 @@ class Tablero {
 	}
 
 	method ponerCeldaMinadaEn(unaCoordenada) {
-	// celdasDelTablero.add(new Celda(conMina = true, estado = oculto, position = game.at(unaCoordenada.posicionX(), unaCoordenada.posicionY())))
+		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(unaCoordenada.first(), unaCoordenada.last())))
+		celdasDelTablero.last().insertarBomba()
 	}
 
 	method ponerNumeros() {
@@ -54,7 +58,7 @@ class Tablero {
 	
 	method ponerUnNumero() {
 		const coordenadaAleatoria = listaDeCoordenadas.vacias().anyOne()
-		// celdasDelTablero.add(new Celda(conMina = false, estado = oculto, position = game.at(coordenadaAleatoria.first(), coordenadaAleatoria.last()), numero = self.minasAlrededorDe(coordenadaAleatoria)))
+		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(coordenadaAleatoria.first(), coordenadaAleatoria.last()), numero = self.minasAlrededorDe(coordenadaAleatoria)))
 	}
 	
 	method hayMinaAl(unaCoordenada, direccion) {
@@ -70,13 +74,7 @@ class Tablero {
 		self.hayMinaAl(unaCoordenada, sur) + self.hayMinaAl(unaCoordenada, suroeste) + self.hayMinaAl(unaCoordenada, oeste) + self.hayMinaAl(unaCoordenada, noroeste) 
 	}
 	
-	method ajustarDimensiones() {
-		game.width(ancho)
-		game.height(largo)
-	}
-	
 	method preparar() {
-		self.ajustarDimensiones()
 		self.ponerMinas()
 		self.ponerNumeros()
 	}
@@ -85,7 +83,13 @@ class Tablero {
 
 object juego {
 
+	method ajustarDimensiones(nivelTablero) {
+		game.width(nivelTablero.ancho())
+		game.height(nivelTablero.largo())
+	}
+	
 	method configurar(nivelTablero) {
+		self.ajustarDimensiones(nivelTablero)
 		nivelTablero.preparar()
 		nivelTablero.celdasDelTablero().forEach({ celda => game.addVisual(celda)})
 	}
