@@ -1,17 +1,32 @@
 import wollok.game.*
 import cursor.*
 import tablero.*
+import menu_inicio.*
 
 program juego {
 	game.title("Buscaminas")
-	game.addVisualCharacter(cursor)
+
+	//Añado ancho y alto solo para testear el menu
+	game.width(20) 
+	game.height(30)
 	game.cellSize(32)
+	
 	
 	var facil = new Tablero(ancho = 10, largo = 10, minasTotal = 20)
 	var medio = new Tablero(ancho = 15, largo = 20, minasTotal = 35)
 	var dificil = new Tablero(ancho = 20, largo = 30, minasTotal = 50)
 	
-	juego.configurar(medio)
+	/* 1ro: Iniciamos el menu y seleccionamos la dificultad
+	 * 2do: Con la dificultad seleccionada inicializamos el tablero
+	 */
+	 
+	menuInicio.iniciarMenu()
+	
+//	juego.configurar(medio)//TODO: Conectar con menu inicio para que le envie la dificultad. Deberia llamarlo desde menuInicio al presionar ENTER ?
+	
+	//Agregamos el cursor en el centro
+	game.addVisualCharacter(cursor) //TODO: Deberia añadirlo el tablero al crearse?
+	
 	
 	//Establecemos los controles
 	keyboard.space().onPressDo { cursor.revelarCelda()}
