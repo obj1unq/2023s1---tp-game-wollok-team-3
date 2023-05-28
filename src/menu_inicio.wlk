@@ -1,5 +1,5 @@
 import wollok.game.*
-//import tablero.*
+import tablero.*
 
 
 object menuInicio {
@@ -19,7 +19,8 @@ object menuInicio {
 	}
 	
 	method iniciarMenu(){
-		
+	
+
 		game.addVisual(self)
 		
 		//Selecciona una opcion de dificultad
@@ -28,8 +29,7 @@ object menuInicio {
 		keyboard.num3().onPressDo({ dificultad.dificil()})
 		
 		//Iniciar el juego
-		//TODO: Conectar esto con tablero para iniciar segun dificultad
-		keyboard.enter().onPressDo({}) 
+		keyboard.enter().onPressDo({juego.configurar(dificultad.nivel())}) 
 			
 	}
 	
