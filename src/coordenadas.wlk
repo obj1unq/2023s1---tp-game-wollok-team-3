@@ -1,7 +1,7 @@
 object listaDeCoordenadas {
 
-	var vacias = []
-	var minadas = []
+	const vacias = []
+	const minadas = []
 	
 	method vacias() {
 		return vacias
@@ -30,15 +30,7 @@ object listaDeCoordenadas {
 
 class Direccion {
 	
-	method valorX(unaCoordenada) {
-		return unaCoordenada.first()
-	}
-	
-	method valorY(unaCoordenada) {
-		return unaCoordenada.last()
-	}
-
-	method proximoDe(coordenada)
+	method proximoDe(unaCoordenada) // unaCoordenada = [Número, Número] => [Número, Número]
 
 }
 

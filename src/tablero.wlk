@@ -1,4 +1,4 @@
-// import celda.*
+import celda.*
 import coordenadas.*
 import wollok.game.*
 
@@ -47,7 +47,7 @@ class Tablero {
 		listaDeCoordenadas.eliminarDe(listaDeCoordenadas.vacias(), coordenadaAleatoria)
 	}
 
-	method ponerCeldaMinadaEn(unaCoordenada) {
+	method ponerCeldaMinadaEn(unaCoordenada) { // unaCoordenada = [Número, Número]
 		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(unaCoordenada.first(), unaCoordenada.last())))
 		celdasDelTablero.last().insertarBomba()
 	}
@@ -61,7 +61,7 @@ class Tablero {
 		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(coordenadaAleatoria.first(), coordenadaAleatoria.last()), numero = self.minasAlrededorDe(coordenadaAleatoria)))
 	}
 	
-	method hayMinaAl(unaCoordenada, direccion) {
+	method hayMinaAl(unaCoordenada, direccion) { // unaCoordenada = [Número, Número], direccion = Direccion
 		if (listaDeCoordenadas.minadas().contains(direccion.proximoDe(unaCoordenada))) {
 			return 1
 		} else {
@@ -69,7 +69,7 @@ class Tablero {
 		}
 	}
 
-	method minasAlrededorDe(unaCoordenada) {
+	method minasAlrededorDe(unaCoordenada) { // unaCoordenada = [Número, Número]
 		return self.hayMinaAl(unaCoordenada, norte) + self.hayMinaAl(unaCoordenada, noreste) + self.hayMinaAl(unaCoordenada, este) + self.hayMinaAl(unaCoordenada, sureste) +
 		self.hayMinaAl(unaCoordenada, sur) + self.hayMinaAl(unaCoordenada, suroeste) + self.hayMinaAl(unaCoordenada, oeste) + self.hayMinaAl(unaCoordenada, noroeste) 
 	}
@@ -83,13 +83,13 @@ class Tablero {
 
 object juego {
 
-	method ajustarDimensiones(nivelTablero) {
-		game.width(nivelTablero.ancho())
-		game.height(nivelTablero.largo())
+	method ajustarDimensiones() {
+		game.width(30)
+		game.height(20)
 	}
 	
-	method configurar(nivelTablero) {
-		self.ajustarDimensiones(nivelTablero)
+	method configurar(nivelTablero) { // nivelTablero = Tablero
+		self.ajustarDimensiones()
 		nivelTablero.preparar()
 		nivelTablero.celdasDelTablero().forEach({ celda => game.addVisual(celda)})
 	}

@@ -1,14 +1,6 @@
 import tablero.*
 import coordenadas.*
 
-/* Para que este test funcione, se debe agregar los 'property' a ambas variables del objeto 'listaDeCoordenadas',
-	 * asi como tambien eliminar los getters de las mismas. La razón por las cuales no son 'property' es porque las listas
-	 * se generan y cambian solamente por acciones del tablero. Se toma la libertad de agregarles el 'property' para elegir
-	 * coordenadas que representan celdas con minas más concretamente unicamente para este test, ya que el tablero se encarga
-	 * de elegir coordenadas al azar.
-	 * 
-	 */
-
 describe "Tests de minas y números" {
 	
 	const unTablero = new Tablero(ancho = 10, largo = 10, minasTotal = 20)
@@ -94,4 +86,31 @@ describe "Tests de minas y números" {
 		assert.equals(4, unTablero.minasAlrededorDe([3, 2]))
 	}
 	
+}
+
+describe "8 minas alrededor" {
+	
+	const unTablero = new Tablero(ancho = 3, largo = 3, minasTotal = 1)
+	
+	/*
+	 * 2	[x]	[x]	[x]
+	 * 1	[x]	[8]	[x]
+	 * 0	[x]	[x]	[x]
+	 * 		 0	 1	 2
+	 */
+	 
+	 method initialize() {
+	 	listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [0, 0])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [1, 0])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [2, 0])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [0, 1])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [2, 1])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [0, 2])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [1, 2])
+		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), [2, 2])
+	 }
+	 
+	 test "Hay 8 minas alrededor de [1, 1]" {
+		assert.equals(8, unTablero.minasAlrededorDe([1, 1]))
+	}
 }
