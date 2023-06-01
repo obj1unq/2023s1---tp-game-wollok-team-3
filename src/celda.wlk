@@ -4,7 +4,7 @@ import cursor.*
 class Celda {
 	
 	var estado = oculto
-	
+	var numero = null
 	
 	method estado(cambioDeEstado){
 		estado = cambioDeEstado
@@ -24,6 +24,13 @@ class Celda {
 		estado.tieneBomba(true)
 	}
 	
+	method position(){
+		
+	}
+	
+	method numero(_numero){
+		numero = _numero
+	}
 }
 
 class Bomba{
