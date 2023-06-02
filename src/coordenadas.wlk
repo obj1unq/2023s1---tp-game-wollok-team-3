@@ -1,6 +1,6 @@
 object listaDeCoordenadas {
 
-	const vacias = []
+	const vacias = [[0, 0]]
 	const minadas = []
 	
 	method vacias() {
@@ -30,7 +30,8 @@ object listaDeCoordenadas {
 
 class Direccion {
 	
-	method proximoDe(unaCoordenada) // unaCoordenada = [Número, Número] => [Número, Número]
+	method proximoDe(unaCoordenada) // unaCoordenada = [Número, Número] 
+	// Los elementos representan a las coordenadas x e y respectivamente.
 
 }
 

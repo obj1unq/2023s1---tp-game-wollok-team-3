@@ -1,6 +1,22 @@
 import tablero.*
 import coordenadas.*
 
+describe "Preparando celdas" {
+	
+	const tableroChico = new Tablero(ancho = 3, largo = 3, minasTotal = 1)
+	const tableroGrande = new Tablero(ancho = 10, largo = 10, minasTotal = 25)
+	
+	test "Lista de coordenadas en tablero chico" {
+		tableroChico.prepararCeldasEn(listaDeCoordenadas)
+		assert.equals([[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]], listaDeCoordenadas.vacias())
+	}
+	
+	test "Cantidad de coordenadas en tablero grande" {
+		tableroGrande.prepararCeldasEn(listaDeCoordenadas)
+		assert.equals(100, listaDeCoordenadas.vacias().size())
+	}
+}
+
 describe "Tests de minas y números" {
 	
 	const unTablero = new Tablero(ancho = 10, largo = 10, minasTotal = 20)
@@ -43,47 +59,47 @@ describe "Tests de minas y números" {
 	}
 	
 	test "Hay mina al N de [2, 2]" {
-		assert.equals(1, unTablero.hayMinaAl([2, 2], norte))
+		assert.equals(1, unTablero.hayMinaAl([2, 2], norte, listaDeCoordenadas))
 	}
 	
 	test "Hay mina al NE de [5, 7]" {
-		assert.equals(1, unTablero.hayMinaAl([5, 7], noreste))
+		assert.equals(1, unTablero.hayMinaAl([5, 7], noreste, listaDeCoordenadas))
 	}
 	
 	test "Hay mina al E de [8, 4]" {
-		assert.equals(1, unTablero.hayMinaAl([8, 4], este))
+		assert.equals(1, unTablero.hayMinaAl([8, 4], este, listaDeCoordenadas))
 	}
 	
 	test "Hay mina al SE de [4, 5]" {
-		assert.equals(1, unTablero.hayMinaAl([4, 5], sureste))
+		assert.equals(1, unTablero.hayMinaAl([4, 5], sureste, listaDeCoordenadas))
 	}
 	
 	test "Hay mina al S de [9, 9]" {
-		assert.equals(1, unTablero.hayMinaAl([9, 9], sur))
+		assert.equals(1, unTablero.hayMinaAl([9, 9], sur, listaDeCoordenadas))
 	}
 	
 	test "Hay mina al SO de [9, 1]" {
-		assert.equals(1, unTablero.hayMinaAl([9, 1], suroeste))
+		assert.equals(1, unTablero.hayMinaAl([9, 1], suroeste, listaDeCoordenadas))
 	}
 	
 	test "Hay mina al O de [9, 0]" {
-		assert.equals(1, unTablero.hayMinaAl([9, 0], oeste))
+		assert.equals(1, unTablero.hayMinaAl([9, 0], oeste, listaDeCoordenadas))
 	}
 	
 	test "Hay mina al NO de [7, 7]" {
-		assert.equals(1, unTablero.hayMinaAl([7, 7], noroeste))
+		assert.equals(1, unTablero.hayMinaAl([7, 7], noroeste, listaDeCoordenadas))
 	}
 	
 	test "Hay 2 minas alrededor de [2, 8]" {
-		assert.equals(2, unTablero.minasAlrededorDe([2, 8]))
+		assert.equals(2, unTablero.minasAlrededorDe([2, 8], listaDeCoordenadas))
 	}
 	
 	test "Hay 3 minas alrededor de [5, 3]" {
-		assert.equals(3, unTablero.minasAlrededorDe([5, 3]))
+		assert.equals(3, unTablero.minasAlrededorDe([5, 3], listaDeCoordenadas))
 	}
 	
 	test "Hay 4 minas alrededor de [3, 2]" {
-		assert.equals(4, unTablero.minasAlrededorDe([3, 2]))
+		assert.equals(4, unTablero.minasAlrededorDe([3, 2], listaDeCoordenadas))
 	}
 	
 }
@@ -111,6 +127,6 @@ describe "8 minas alrededor" {
 	 }
 	 
 	 test "Hay 8 minas alrededor de [1, 1]" {
-		assert.equals(8, unTablero.minasAlrededorDe([1, 1]))
+		assert.equals(8, unTablero.minasAlrededorDe([1, 1], listaDeCoordenadas))
 	}
 }

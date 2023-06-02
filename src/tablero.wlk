@@ -15,23 +15,29 @@ class Tablero {
 	
 	method celdasDelTablero() = celdasDelTablero
 
-	method prepararCeldas() {
-		(ancho * largo).times{ n => self.prepararUnaCelda()}
+	method prepararCeldasEn(unaLista) {
+		((ancho * largo) - 1).times({n => self.prepararUnaCeldaEn(unaLista)}) // El - 1 saca la coordenada [ 0, 0 ] que se inicializa siempre en todos los tableros.
+		
 	}
-
-	method prepararUnaCelda() {
-		const xRandom = (0.randomUpTo(ancho - 1)).truncate(0)
-		const yRandom = (0.randomUpTo(largo - 1)).truncate(0)
-		if (not listaDeCoordenadas.vacias().contains([ xRandom, yRandom ])) {
-			listaDeCoordenadas.agregarA(listaDeCoordenadas.vacias(), [ xRandom, yRandom ])
+	
+	method prepararUnaCeldaEn(unaLista) {
+		const ultimaCoordenada = unaLista.vacias().last() // Toma la última coordenada que está en la lista. Al inicio de todo siempre va a estar la [ 0, 0 ]
+		var ultimaCoordenadaX = ultimaCoordenada.first() // Su coordenada X
+		var ultimaCoordenadaY = ultimaCoordenada.last() // Su coordenada Y
+		if (not self.estaEnBordeY(ultimaCoordenada)) { // Se pregunta si no está en el borde del tablero.
+			ultimaCoordenadaY += 1 // Entonces suma 1 a la coordenada Y
 		} else {
-			self.prepararUnaCelda()
+			ultimaCoordenadaX += 1 // Suma uno a la coordenada X
+			ultimaCoordenadaY = 0 // Devuelve al inicio de Y para volver a hacer el recorrido.
 		}
+		unaLista.agregarA(unaLista.vacias(), [ ultimaCoordenadaX, ultimaCoordenadaY ]) // Agrega una coordenada ya preparada a esa lista.
 	}
-
-	method ponerMinas() {
+	
+	method estaEnBordeY(unaCoordenada) = unaCoordenada.last() == largo - 1
+	
+	method prepararMinasEn(unaLista) {
 		self.verificarTotalDeMinas()
-		minasTotal.times{ n => self.ponerUnaMina()}
+		minasTotal.times{ n => self.prepararUnaMinaEn(unaLista)}
 	}
 
 	method verificarTotalDeMinas() {
@@ -40,43 +46,48 @@ class Tablero {
 		}
 	}
 
-	method ponerUnaMina() {
-		const coordenadaAleatoria = listaDeCoordenadas.vacias().anyOne() // Una coordenada de celda aleatoria.
-		self.ponerCeldaMinadaEn(coordenadaAleatoria)
-		listaDeCoordenadas.agregarA(listaDeCoordenadas.minadas(), coordenadaAleatoria)
-		listaDeCoordenadas.eliminarDe(listaDeCoordenadas.vacias(), coordenadaAleatoria)
+	method prepararUnaMinaEn(unaLista) {
+		const coordenadaAleatoria = unaLista.vacias().anyOne() // Una coordenada de celda aleatoria.
+		self.ponerCeldaMinadaCon(coordenadaAleatoria)
+		unaLista.agregarA(unaLista.minadas(), coordenadaAleatoria)
+		unaLista.eliminarDe(unaLista.vacias(), coordenadaAleatoria)
 	}
 
-	method ponerCeldaMinadaEn(unaCoordenada) { // unaCoordenada = [Número, Número]
+	method ponerCeldaMinadaCon(unaCoordenada) { // unaCoordenada = [Número, Número]
 		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(unaCoordenada.first(), unaCoordenada.last())))
 		celdasDelTablero.last().insertarBomba()
 	}
 
-	method ponerNumeros() {
-		listaDeCoordenadas.vacias().forEach({celda => self.ponerUnNumero()})
+	method prepararNumerosEn(unaLista) {
+		unaLista.vacias().forEach({celda => self.prepararUnNumeroEn(unaLista)})
 	}
 	
-	method ponerUnNumero() {
-		const coordenadaAleatoria = listaDeCoordenadas.vacias().anyOne()
-		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(coordenadaAleatoria.first(), coordenadaAleatoria.last()), numero = self.minasAlrededorDe(coordenadaAleatoria)))
+	method prepararUnNumeroEn(unaLista) {
+		const coordenadaAleatoria = unaLista.vacias().anyOne()
+		self.ponerNumeroCon(coordenadaAleatoria)
 	}
 	
-	method hayMinaAl(unaCoordenada, direccion) { // unaCoordenada = [Número, Número], direccion = Direccion
-		if (listaDeCoordenadas.minadas().contains(direccion.proximoDe(unaCoordenada))) {
+	method ponerNumeroCon(unaCoordenada) {
+		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(unaCoordenada.first(), unaCoordenada.last()), numero = self.minasAlrededorDe(unaCoordenada)))
+	}
+	
+	method hayMinaAl(unaCoordenada, direccion, otraLista) { // unaCoordenada = [Número, Número], direccion = Direccion
+		if (otraLista.minadas().contains(direccion.proximoDe(unaCoordenada))) {
 			return 1
 		} else {
 			return 0
 		}
 	}
 
-	method minasAlrededorDe(unaCoordenada) { // unaCoordenada = [Número, Número]
-		return self.hayMinaAl(unaCoordenada, norte) + self.hayMinaAl(unaCoordenada, noreste) + self.hayMinaAl(unaCoordenada, este) + self.hayMinaAl(unaCoordenada, sureste) +
-		self.hayMinaAl(unaCoordenada, sur) + self.hayMinaAl(unaCoordenada, suroeste) + self.hayMinaAl(unaCoordenada, oeste) + self.hayMinaAl(unaCoordenada, noroeste) 
+	method minasAlrededorDe(unaCoordenada, otraLista) { // unaCoordenada = [Número, Número], otraLista = lista
+		return self.hayMinaAl(unaCoordenada, norte, otraLista) + self.hayMinaAl(unaCoordenada, noreste, otraLista) + self.hayMinaAl(unaCoordenada, este, otraLista) + self.hayMinaAl(unaCoordenada, sureste, otraLista) +
+		self.hayMinaAl(unaCoordenada, sur, otraLista) + self.hayMinaAl(unaCoordenada, suroeste, otraLista) + self.hayMinaAl(unaCoordenada, oeste, otraLista) + self.hayMinaAl(unaCoordenada, noroeste, otraLista) 
 	}
 	
-	method preparar() {
-		self.ponerMinas()
-		self.ponerNumeros()
+	method prepararCon(unaLista) {
+		self.prepararCeldasEn(unaLista)
+		self.prepararMinasEn(unaLista)
+		self.prepararNumerosEn(unaLista)
 	}
 
 }
