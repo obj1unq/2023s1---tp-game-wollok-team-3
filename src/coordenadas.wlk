@@ -3,13 +3,9 @@ object listaDeCoordenadas {
 	const vacias = [[0, 0]]
 	const minadas = []
 	
-	method vacias() {
-		return vacias
-	}
+	method vacias() = vacias
 	
-	method minadas() {
-		return minadas
-	}
+	method minadas() = minadas
 
 	method agregarA(lista, unaCoordenada) {
 		lista.add(unaCoordenada)
@@ -20,8 +16,8 @@ object listaDeCoordenadas {
 		lista.remove(unaCoordenada)
 	}
 
-	method existeLaCoordenadaEn(coordenada, lista) {
-		if (not lista.contains(coordenada)) {
+	method existeLaCoordenadaEn(unaCoordenada, lista) {
+		if (not lista.contains(unaCoordenada)) {
 			self.error("¡La coordenada solicitada no existe!")
 		}
 	}
@@ -30,71 +26,67 @@ object listaDeCoordenadas {
 
 class Direccion {
 	
-	method proximoDe(unaCoordenada) // unaCoordenada = [Número, Número] 
+	method coordenadaXDe(unaCoordenada) = unaCoordenada.first()
+	
+	method coordenadaYDe(unaCoordenada) = unaCoordenada.last()
+	
+	method proximoDe(unaCoordenada) = [ self.coordenadaXDe(unaCoordenada), self.coordenadaYDe(unaCoordenada) ] // unaCoordenada = [Número, Número] 
 	// Los elementos representan a las coordenadas x e y respectivamente.
 
 }
 
 object norte inherits Direccion {
 
-	override method proximoDe(unaCoordenada) {
-		return [ unaCoordenada.first(), unaCoordenada.last() + 1 ]
-	}
+	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) + 1
 
 }
 
 object noreste inherits Direccion {
 
-	override method proximoDe(unaCoordenada) {
-		return [ unaCoordenada.first() + 1, unaCoordenada.last() + 1 ]
-	}
+	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) + 1
+	
+	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) + 1
 
 }
 
 object este inherits Direccion {
 
-	override method proximoDe(unaCoordenada) {
-		return [ unaCoordenada.first() + 1, unaCoordenada.last() ]
-	}
+	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) + 1
 
 }
 
 object sureste inherits Direccion {
 
-	override method proximoDe(unaCoordenada) {
-		return [ unaCoordenada.first() + 1, unaCoordenada.last() - 1 ]
-	}
+	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) + 1
+	
+	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) - 1
 
 }
 
 object sur inherits Direccion {
-
-	override method proximoDe(unaCoordenada) {
-		return [ unaCoordenada.first(), unaCoordenada.last() - 1 ]
-	}
+	
+	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) - 1
 
 }
 
 object suroeste inherits Direccion {
 
-	override method proximoDe(unaCoordenada) {
-		return [ unaCoordenada.first() - 1, unaCoordenada.last() - 1 ]
-	}
+	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) - 1
+	
+	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) - 1
 
 }
 
 object oeste inherits Direccion {
 
-	override method proximoDe(unaCoordenada) {
-		return [ unaCoordenada.first() - 1, unaCoordenada.last() ]
-	}
+	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) - 1
 
 }
 
 object noroeste inherits Direccion {
 
-	override method proximoDe(unaCoordenada) {
-		return [ unaCoordenada.first() - 1, unaCoordenada.last() + 1 ]
-	}
+	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) - 1
+	
+	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) + 1
 
 }

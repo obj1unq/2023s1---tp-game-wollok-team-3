@@ -2,92 +2,86 @@ import celda.*
 import coordenadas.*
 import wollok.game.*
 
+// g h G H []
 class Tablero {
 
 	const ancho = 0 // Número
 	const largo = 0 // Número
 	const minasTotal = 0 // Número
 	const celdasDelTablero = [] // [Celda]
-	
+
 	method ancho() = ancho
-	
+
 	method largo() = largo
-	
+
 	method celdasDelTablero() = celdasDelTablero
 
 	method prepararCeldasEn(unaLista) {
-		((ancho * largo) - 1).times({n => self.prepararUnaCeldaEn(unaLista)}) // El - 1 saca la coordenada [ 0, 0 ] que se inicializa siempre en todos los tableros.
-		
-	}
-	
-	method prepararUnaCeldaEn(unaLista) {
-		const ultimaCoordenada = unaLista.vacias().last() // Toma la última coordenada que está en la lista. Al inicio de todo siempre va a estar la [ 0, 0 ]
-		var ultimaCoordenadaX = ultimaCoordenada.first() // Su coordenada X
-		var ultimaCoordenadaY = ultimaCoordenada.last() // Su coordenada Y
-		if (not self.estaEnBordeY(ultimaCoordenada)) { // Se pregunta si no está en el borde del tablero.
-			ultimaCoordenadaY += 1 // Entonces suma 1 a la coordenada Y
-		} else {
-			ultimaCoordenadaX += 1 // Suma uno a la coordenada X
-			ultimaCoordenadaY = 0 // Devuelve al inicio de Y para volver a hacer el recorrido.
-		}
-		unaLista.agregarA(unaLista.vacias(), [ ultimaCoordenadaX, ultimaCoordenadaY ]) // Agrega una coordenada ya preparada a esa lista.
-	}
-	
-	method estaEnBordeY(unaCoordenada) = unaCoordenada.last() == largo - 1
-	
-	method prepararMinasEn(unaLista) {
-		self.verificarTotalDeMinas()
-		minasTotal.times{ n => self.prepararUnaMinaEn(unaLista)}
+		self.verificarPrimerElementoEn(unaLista)
+		((ancho * largo) - 1).times{ n => self.prepararUnaCeldaEn(unaLista)}
 	}
 
-	method verificarTotalDeMinas() {
+	method prepararUnaCeldaEn(unaLista) {
+		const ultimaCoordenada = unaLista.vacias().last()
+		var nuevaCoordenadaX = ultimaCoordenada.first()
+		var nuevaCoordenadaY = ultimaCoordenada.last()
+		if (not self.estaEnBordeY(nuevaCoordenadaY)) {
+			nuevaCoordenadaY += 1
+		} else {
+			nuevaCoordenadaX += 1
+			nuevaCoordenadaY = 0
+		}
+		unaLista.agregarA(unaLista.vacias(), [ nuevaCoordenadaX, nuevaCoordenadaY ])
+	}
+
+	method verificarPrimerElementoEn(unaLista) {
+		if (unaLista.vacias() != [[0, 0]]) {
+			self.error("La lista utilizada no contiene el elemento esperado o contiene más de un elemento")
+		}
+	}
+
+	method estaEnBordeY(coordenadaY) = coordenadaY == largo - 1
+
+	method prepararMinasEn(unaLista) {
+		self.verificarTotalMinas()
+		minasTotal.times({ n => self.prepararUnaMinaEn(unaLista)})
+	}
+
+	method verificarTotalMinas() {
 		if (minasTotal > ancho * largo) {
 			self.error("La cantidad de minas configurada supera el número total de celdas del tablero.")
 		}
 	}
 
 	method prepararUnaMinaEn(unaLista) {
-		const coordenadaAleatoria = unaLista.vacias().anyOne() // Una coordenada de celda aleatoria.
-		self.ponerCeldaMinadaCon(coordenadaAleatoria)
+		const coordenadaAleatoria = unaLista.vacias().anyOne()
+		self.ponerUnaCeldaMinadaEn(coordenadaAleatoria)
 		unaLista.agregarA(unaLista.minadas(), coordenadaAleatoria)
 		unaLista.eliminarDe(unaLista.vacias(), coordenadaAleatoria)
 	}
 
-	method ponerCeldaMinadaCon(unaCoordenada) { // unaCoordenada = [Número, Número]
+	method ponerUnaCeldaMinadaEn(unaCoordenada) {
 		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(unaCoordenada.first(), unaCoordenada.last())))
 		celdasDelTablero.last().insertarBomba()
 	}
 
-	method prepararNumerosEn(unaLista) {
-		unaLista.vacias().forEach({celda => self.prepararUnNumeroEn(unaLista)})
-	}
-	
-	method prepararUnNumeroEn(unaLista) {
-		const coordenadaAleatoria = unaLista.vacias().anyOne()
-		self.ponerNumeroCon(coordenadaAleatoria)
-	}
-	
-	method ponerNumeroCon(unaCoordenada) {
-		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(unaCoordenada.first(), unaCoordenada.last()), numero = self.minasAlrededorDe(unaCoordenada)))
-	}
-	
-	method hayMinaAl(unaCoordenada, direccion, otraLista) { // unaCoordenada = [Número, Número], direccion = Direccion
-		if (otraLista.minadas().contains(direccion.proximoDe(unaCoordenada))) {
-			return 1
-		} else {
-			return 0
-		}
+	method ponerNumerosCon(unaLista) {
+		unaLista.vacias().forEach({ celda => self.ponerUnNumeroCon(unaLista)})
 	}
 
-	method minasAlrededorDe(unaCoordenada, otraLista) { // unaCoordenada = [Número, Número], otraLista = lista
-		return self.hayMinaAl(unaCoordenada, norte, otraLista) + self.hayMinaAl(unaCoordenada, noreste, otraLista) + self.hayMinaAl(unaCoordenada, este, otraLista) + self.hayMinaAl(unaCoordenada, sureste, otraLista) +
-		self.hayMinaAl(unaCoordenada, sur, otraLista) + self.hayMinaAl(unaCoordenada, suroeste, otraLista) + self.hayMinaAl(unaCoordenada, oeste, otraLista) + self.hayMinaAl(unaCoordenada, noroeste, otraLista) 
+	method ponerUnNumeroCon(unaLista) {
+		const coordenadaAleatoria = unaLista.vacias().anyOne()
+		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(coordenadaAleatoria.first(), coordenadaAleatoria.last(), numero = self.minasAlrededorDe(coordenadaAleatoria))))
 	}
-	
+
+	method hayMinaAl(unaCoordenada, direccion, unaLista) = if (unaLista.minadas().contains(direccion.proximoDe(unaCoordenada))) 1 else 0
+
+	method minasAlrededorDe(unaCoordenada, unaLista) = self.hayMinaAl(unaCoordenada, norte, unaLista) + self.hayMinaAl(unaCoordenada, noroeste, unaLista) + self.hayMinaAl(unaCoordenada, este, unaLista) + self.hayMinaAl(unaCoordenada, sureste, unaLista) + self.hayMinaAl(unaCoordenada, sur, unaLista) + self.hayMinaAl(unaCoordenada, suroeste, unaLista) + self.hayMinaAl(unaCoordenada, oeste, unaLista) + self.hayMinaAl(unaCoordenada, noroeste, unaLista)
+
 	method prepararCon(unaLista) {
 		self.prepararCeldasEn(unaLista)
 		self.prepararMinasEn(unaLista)
-		self.prepararNumerosEn(unaLista)
+		self.ponerNumerosCon(unaLista)
 	}
 
 }
@@ -98,8 +92,8 @@ object juego {
 		game.width(30)
 		game.height(20)
 	}
-	
-	method configurar(nivelTablero) { // nivelTablero = Tablero
+
+	method configurar(nivelTablero) {
 		self.ajustarDimensiones()
 		nivelTablero.preparar()
 		nivelTablero.celdasDelTablero().forEach({ celda => game.addVisual(celda)})
