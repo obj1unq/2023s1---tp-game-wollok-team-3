@@ -2,7 +2,6 @@ import celda.*
 import coordenadas.*
 import wollok.game.*
 
-// g h G H []
 class Tablero {
 
 	const ancho = 0 // Número
@@ -17,26 +16,26 @@ class Tablero {
 	method celdasDelTablero() = celdasDelTablero
 
 	method prepararCeldasEn(unaLista) {
-		self.verificarPrimerElementoEn(unaLista)
-		((ancho * largo) - 1).times{ n => self.prepararUnaCeldaEn(unaLista)}
+		self.verificarUnicoElementoEn(unaLista) // Verificación
+		((ancho * largo) - 1).times{ n => self.prepararUnaCeldaEn(unaLista)} // Las coordenadas esperadas en total menos la coordenada [ 0, 0 ]
 	}
 
 	method prepararUnaCeldaEn(unaLista) {
-		const ultimaCoordenada = unaLista.vacias().last()
-		var nuevaCoordenadaX = ultimaCoordenada.first()
-		var nuevaCoordenadaY = ultimaCoordenada.last()
-		if (not self.estaEnBordeY(nuevaCoordenadaY)) {
-			nuevaCoordenadaY += 1
+		const ultimaCoordenada = unaLista.vacias().last() // Toma la última coordenada en esa lista. Para la primera ejecución espera el elemento [ 0, 0 ]
+		var nuevaCoordenadaX = ultimaCoordenada.first() // La coordenada X de la constante
+		var nuevaCoordenadaY = ultimaCoordenada.last() // La coordenada Y de la constante
+		if (not self.estaEnBordeY(nuevaCoordenadaY)) { // Pregunta si la coordenada Y no está en el borde
+			nuevaCoordenadaY += 1 // Entonces suma 1 a la coordenada Y
 		} else {
-			nuevaCoordenadaX += 1
-			nuevaCoordenadaY = 0
+			nuevaCoordenadaX += 1 // Si está en el borde, suma 1 a la coordenada X nueva
+			nuevaCoordenadaY = 0 // "Reinicia" la coordenada Y
 		}
-		unaLista.agregarA(unaLista.vacias(), [ nuevaCoordenadaX, nuevaCoordenadaY ])
+		unaLista.agregarA(unaLista.vacias(), [ nuevaCoordenadaX, nuevaCoordenadaY ]) // Agrega esa nueva coordenada a la lista. De repetirse este method, esta coordenada se convierte en la última
 	}
 
-	method verificarPrimerElementoEn(unaLista) {
-		if (unaLista.vacias() != [[0, 0]]) {
-			self.error("La lista utilizada no contiene el elemento esperado o contiene más de un elemento")
+	method verificarUnicoElementoEn(unaLista) {
+		if (unaLista.vacias() != [ [0, 0] ]) { // Solamente espera que contenga ese único elemento
+			self.error("La lista utilizada no contiene el elemento esperado o contiene más de un elemento.")
 		}
 	}
 
@@ -54,15 +53,15 @@ class Tablero {
 	}
 
 	method prepararUnaMinaEn(unaLista) {
-		const coordenadaAleatoria = unaLista.vacias().anyOne()
+		const coordenadaAleatoria = unaLista.vacias().anyOne() // Pide una coordenada cualquiera
 		self.ponerUnaCeldaMinadaEn(coordenadaAleatoria)
-		unaLista.agregarA(unaLista.minadas(), coordenadaAleatoria)
-		unaLista.eliminarDe(unaLista.vacias(), coordenadaAleatoria)
+		unaLista.agregarA(unaLista.minadas(), coordenadaAleatoria) // Agrega esta coordenada para ser utilizada en el futuro
+		unaLista.eliminarDe(unaLista.vacias(), coordenadaAleatoria) // Elimina esta coordenada de la lista para prevenir que se vuelva a elegir
 	}
 
 	method ponerUnaCeldaMinadaEn(unaCoordenada) {
-		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(unaCoordenada.first(), unaCoordenada.last())))
-		celdasDelTablero.last().insertarBomba()
+		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(unaCoordenada.first(), unaCoordenada.last()))) // Añade una nueva celda a la lista
+		celdasDelTablero.last().insertarBomba() // Inserta una mina en esta
 	}
 
 	method ponerNumerosCon(unaLista) {
