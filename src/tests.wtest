@@ -1,6 +1,27 @@
 import tablero.*
 import coordenadas.*
 
+describe "Tests de coordenadas" {
+
+	const coordenada1 = [ 5, 6 ]
+	const coordenada2 = [ 3, 0 ]
+	const coordenada3 = [ 87, 34 ]
+
+	test "Posiciones" {
+		assert.equals(5, coordenada.posicionX(coordenada1))
+		assert.equals(0, coordenada.posicionY(coordenada2))
+		assert.equals(34, coordenada.posicionY(coordenada3))
+	}
+
+	test "Desplazamientos" {
+		assert.equals([ 6, 6 ], coordenada.desplazarHacia(coordenada1, este))
+		assert.equals([ 4, 6 ], coordenada.desplazarHacia(coordenada1, oeste))
+		assert.equals([ 3, 1 ], coordenada.desplazarHacia(coordenada2, norte))
+		assert.equals([ 87, 33 ], coordenada.desplazarHacia(coordenada3, sur))
+	}
+
+}
+
 describe "Preparando celdas" {
 	
 	const tableroChico = new Tablero(ancho = 3, largo = 3, minasTotal = 1)

@@ -1,3 +1,13 @@
+object coordenada {
+
+	method posicionX(unaLista) = unaLista.first()
+
+	method posicionY(unaLista) = unaLista.last()
+	
+	method desplazarHacia(unaLista, direccion) = direccion.desplazamientoXY(unaLista)
+
+}
+
 object listaDeCoordenadas {
 
 	const vacias = [[0, 0]]
@@ -26,67 +36,66 @@ object listaDeCoordenadas {
 
 class Direccion {
 	
-	method coordenadaXDe(unaCoordenada) = unaCoordenada.first()
+	method desplazamientoX(unaCoordenada) = coordenada.posicionX(unaCoordenada)
 	
-	method coordenadaYDe(unaCoordenada) = unaCoordenada.last()
+	method desplazamientoY(unaCoordenada) = coordenada.posicionY(unaCoordenada)
 	
-	method proximoDe(unaCoordenada) = [ self.coordenadaXDe(unaCoordenada), self.coordenadaYDe(unaCoordenada) ] // unaCoordenada = [Número, Número] 
-	// Los elementos representan a las coordenadas x e y respectivamente.
+	method desplazamientoXY(unaCoordenada) = [ self.desplazamientoX(unaCoordenada), self.desplazamientoY(unaCoordenada) ]
 
 }
 
 object norte inherits Direccion {
 
-	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) + 1
+	override method desplazamientoY(unaCoordenada) = super(unaCoordenada) + 1
 
 }
 
 object noreste inherits Direccion {
 
-	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) + 1
+	override method desplazamientoX(unaCoordenada) = super(unaCoordenada) + 1
 	
-	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) + 1
+	override method desplazamientoY(unaCoordenada) = super(unaCoordenada) + 1
 
 }
 
 object este inherits Direccion {
 
-	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) + 1
+	override method desplazamientoX(unaCoordenada) = super(unaCoordenada) + 1
 
 }
 
 object sureste inherits Direccion {
 
-	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) + 1
+	override method desplazamientoX(unaCoordenada) = super(unaCoordenada) + 1
 	
-	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) - 1
+	override method desplazamientoY(unaCoordenada) = super(unaCoordenada) - 1
 
 }
 
 object sur inherits Direccion {
 	
-	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) - 1
+	override method desplazamientoY(unaCoordenada) = super(unaCoordenada) - 1
 
 }
 
 object suroeste inherits Direccion {
 
-	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) - 1
+	override method desplazamientoX(unaCoordenada) = super(unaCoordenada) - 1
 	
-	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) - 1
+	override method desplazamientoY(unaCoordenada) = super(unaCoordenada) - 1
 
 }
 
 object oeste inherits Direccion {
 
-	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) - 1
+	override method desplazamientoX(unaCoordenada) = super(unaCoordenada) - 1
 
 }
 
 object noroeste inherits Direccion {
 
-	override method coordenadaXDe(unaCoordenada) = super(unaCoordenada) - 1
+	override method desplazamientoX(unaCoordenada) = super(unaCoordenada) - 1
 	
-	override method coordenadaYDe(unaCoordenada) = super(unaCoordenada) + 1
+	override method desplazamientoY(unaCoordenada) = super(unaCoordenada) + 1
 
 }
