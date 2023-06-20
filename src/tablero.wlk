@@ -75,7 +75,7 @@ class Tablero {
 
 	method hayMinaAl(unaCoordenada, direccion, unaLista) = if (unaLista.minadas().contains(coordenada.desplazarHacia(unaCoordenada, direccion))) 1 else 0
 
-	method minasAlrededorDe(unaCoordenada, unaLista) = self.hayMinaAl(unaCoordenada, norte, unaLista) + self.hayMinaAl(unaCoordenada, noroeste, unaLista) + self.hayMinaAl(unaCoordenada, este, unaLista) + self.hayMinaAl(unaCoordenada, sureste, unaLista) + self.hayMinaAl(unaCoordenada, sur, unaLista) + self.hayMinaAl(unaCoordenada, suroeste, unaLista) + self.hayMinaAl(unaCoordenada, oeste, unaLista) + self.hayMinaAl(unaCoordenada, noroeste, unaLista)
+	method minasAlrededorDe(unaCoordenada, unaLista) = self.hayMinaAl(unaCoordenada, norte, unaLista) + self.hayMinaAl(unaCoordenada, noreste, unaLista) + self.hayMinaAl(unaCoordenada, este, unaLista) + self.hayMinaAl(unaCoordenada, sureste, unaLista) + self.hayMinaAl(unaCoordenada, sur, unaLista) + self.hayMinaAl(unaCoordenada, suroeste, unaLista) + self.hayMinaAl(unaCoordenada, oeste, unaLista) + self.hayMinaAl(unaCoordenada, noroeste, unaLista)
 
 	method prepararCon(unaLista) {
 		self.prepararCeldasEn(unaLista)
