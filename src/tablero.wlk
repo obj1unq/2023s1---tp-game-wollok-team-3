@@ -71,6 +71,7 @@ class Tablero {
 	method ponerUnNumeroCon(unaLista) {
 		const coordenadaAleatoria = unaLista.vacias().anyOne()
 		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(coordenada.posicionX(coordenadaAleatoria), coordenada.posicionY(coordenadaAleatoria)), numero = self.minasAlrededorDe(coordenadaAleatoria)))
+		unaLista.eliminarDe(unaLista.vacias(), coordenadaAleatoria)
 	}
 
 	method hayMinaAl(unaCoordenada, direccion, unaLista) = if (unaLista.minadas().contains(coordenada.desplazarHacia(unaCoordenada, direccion))) 1 else 0
