@@ -1,12 +1,16 @@
 import celda.*
 import coordenadas.*
 import wollok.game.*
+import menu_inicio.*
+import cursor.*
+
+
 
 class Tablero {
 
-	const ancho = 0 // Número
-	const largo = 0 // Número
-	const minasTotal = 0 // Número
+	const ancho 	 // = 0 // Número
+	const largo 	 // = 0 // Número
+	const minasTotal // = 0 // Número
 	const celdasDelTablero = [] // [Celda]
 
 	method ancho() = ancho
@@ -88,15 +92,25 @@ class Tablero {
 
 object juego {
 
+	//Ya se define las dimensiones en juego.wpgm
+	/*
 	method ajustarDimensiones() {
 		game.width(30)
 		game.height(20)
-	}
+	}*/
 
 	method configurar(nivelTablero, unaLista) {
-		self.ajustarDimensiones()
+		//self.ajustarDimensiones()
+		
+		//1ro - Borramos el menu
+		game.removeVisual(menuInicio)
+		
+		//2do - Seteamos y dibujamos el tablero
 		nivelTablero.prepararCon(unaLista)
 		nivelTablero.celdasDelTablero().forEach({ celda => game.addVisual(celda)})
+		
+		//3ro - Añadimos el cursor al final
+		game.addVisualCharacter(cursor)
 	}
 
 }

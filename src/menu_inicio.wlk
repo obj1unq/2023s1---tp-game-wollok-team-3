@@ -1,6 +1,6 @@
 import wollok.game.*
 import tablero.*
-
+import coordenadas.*
 
 object menuInicio {
 	
@@ -8,13 +8,16 @@ object menuInicio {
 	
 	method image(){
 		
-		if(dificultad.nivel() == facil){
+		/*
+		if(nivelDificultad.nivel().equals(facil)){
 			return "assets/Menu_Facil.jpg"
-		}else if(dificultad.nivel() == medio){
+		}else if(nivelDificultad.nivel().equals(medio)){
 			return "assets/Menu_Medio.jpg"
 		}else{
 			return "assets/Menu_Dificil.jpg"
-		}
+		}*/
+		
+		return nivelDificultad.nivel().image()
 		
 	}
 	
@@ -24,19 +27,19 @@ object menuInicio {
 		game.addVisual(self)
 		
 		//Selecciona una opcion de dificultad
-		keyboard.num1().onPressDo({ dificultad.facil()})
-		keyboard.num2().onPressDo({ dificultad.medio()})
-		keyboard.num3().onPressDo({ dificultad.dificil()})
+		keyboard.num1().onPressDo({ nivelDificultad.facil()})
+		keyboard.num2().onPressDo({ nivelDificultad.medio()})
+		keyboard.num3().onPressDo({ nivelDificultad.dificil()})
 		
 		//Iniciar el juego
-		keyboard.enter().onPressDo({juego.configurar(dificultad.nivel())}) 
+		keyboard.enter().onPressDo({juego.configurar(nivelDificultad.nivel().tablero(), listaDeCoordenadas)}) 
 			
 	}
 	
 }//end_menuInicio
 	
 
-object dificultad {
+object nivelDificultad {
 	
 
 	var property nivel = medio
@@ -60,14 +63,28 @@ object dificultad {
 	}
 }
 
+class Dificultad{
+	
+	const nroMinas
+	const property tablero = new Tablero(minasTotal = nroMinas, ancho = 20, largo = 30)
+}
 
-object facil{
+object facil inherits Dificultad(nroMinas = 10){
+	
+	method image() = "assets/Menu_Facil.jpg"
+	
+	
 	
 }
-object medio{
+object medio inherits Dificultad(nroMinas = 15){
+	
+	method image() = "assets/Menu_Medio.jpg"
+	
 	
 }
-object dificil{
+object dificil inherits Dificultad(nroMinas = 20){
+	
+	method image() = "assets/Menu_Dificil.jpg"
 	
 }
 
