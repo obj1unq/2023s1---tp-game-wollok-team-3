@@ -64,7 +64,7 @@ class Tablero {
 	}
 
 	method ponerUnaCeldaMinadaEn(unaCoordenada) {
-		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(coordenada.posicionX(unaCoordenada), coordenada.posicionY(unaCoordenada)))) // Añade una nueva celda a la lista
+		celdasDelTablero.add(new Celda( position = game.at(coordenada.posicionX(unaCoordenada), coordenada.posicionY(unaCoordenada)))) // Añade una nueva celda a la lista
 		celdasDelTablero.last().insertarBomba() // Inserta una mina en esta
 	}
 
@@ -79,7 +79,7 @@ class Tablero {
 		
 		console.println("celdasDelTableroAdd")
 		
-		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(coordenada.posicionX(coordenadaAleatoria), coordenada.posicionY(coordenadaAleatoria)), numero = self.minasAlrededorDe(coordenadaAleatoria, unaLista)))
+		celdasDelTablero.add(new Celda( position = game.at(coordenada.posicionX(coordenadaAleatoria), coordenada.posicionY(coordenadaAleatoria)), numero = self.minasAlrededorDe(coordenadaAleatoria, unaLista)))
 		
 		console.println("eliminarDe")
 		

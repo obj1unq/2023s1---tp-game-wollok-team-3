@@ -4,8 +4,9 @@ import cursor.*
 class Celda {
 	
 	var estado = oculto
-	var numero = null
+	const numero = 0
 	var property position 
+	var tieneBomba = false
 	
 	method estado(cambioDeEstado){
 		estado = cambioDeEstado
@@ -17,82 +18,93 @@ class Celda {
 	
 	method image(){
 		return(
-			estado.image()
+			estado.image(self)
 		)
 	}
 	
 	method insertarBomba(){
-		estado.tieneBomba(true)
+		self.tieneBomba(true)
 	}
 	
-	/*
-	method position(){
-		
-	}
-	*/
+//	method numero(_numero){
+//		numero = _numero
+//	}
+
+	method numero() = numero
 	
-	method numero(_numero){
-		numero = _numero
+	method marcada(){
+		estado =  marcada
+	} 
+	
+	method revelar(){
+		estado = revelado
+	} 
+	
+	method tieneBomba(cambio){
+		tieneBomba = cambio
 	}
+	
+	method tieneBomba(){
+		return tieneBomba
+	}
+	
 }
+
 
 class Bomba{
 	
-	method image() = "bomba.png"
+	method image(celda) = "minaExplotada.png"
 	
 }
 
 
-object oculto{
+
+class Estado{
 	
-	var tieneBomba = false
-	
-	method image() = "celdaOculta.png"
-	
-	method tieneBomba(cambio){
-		tieneBomba = !tieneBomba
-	}
-	
-	method tieneBomba(){
-		return tieneBomba
-	}
+	method image(celda)
 }
 
-object revelado{
+
+object oculto inherits Estado{
 	
-	var tieneBomba = false
+	override method image(celda) = "celdaSinMarcar.png"
 	
-	method image() {
+
+}
+object revelado inherits Estado {
+	
+	override method image(celda) {
 		return(
-			if(tieneBomba){
-				"bomba.png"
-			} else{
-				"celdaReveladaVacia.png"
+			if(celda.tieneBomba()){
+				"minaExplotada.png"
+			} else if (celda.numero() == 0) {
+				"celdaReveladaSinBomba.png"
+			} else if (celda.numero() == 1) {
+				"numero1.png"
+			} else if (celda.numero() == 2) {
+				"numero2.png"
+			} else if (celda.numero() == 3) {
+				"numero3.png"
+			} else if (celda.numero() == 4) {
+				"numero4.png"
+			} else if (celda.numero() == 5) {
+				"numero5.png"
+			} else if (celda.numero() == 6) {
+				"numero6.png"
+			} else if (celda.numero() == 7) {
+				"numero7.png"
+			} else {
+				console.println("No tiene numero/Bomba" + celda.numero())
+				"numero8.png"
+				//self.error("No tiene numero/Bomba" + celda.numero() ) 
 			}
 		)
 	}	
-
-	method tieneBomba(cambio){
-		tieneBomba = !tieneBomba
-	}
-
-	method tieneBomba(){
-		return tieneBomba
-	}
 }
 
-object marcada{
+object marcada inherits Estado{
 	
-	var tieneBomba = false
-	
-	method image() = "celdaMarcada.png"
-	
-	method tieneBomba(cambio){
-		tieneBomba = !tieneBomba
-	}
-	
-	method tieneBomba(){
-		return tieneBomba
-	}
+	override method image(celda) = "bandera.png"
+
 }
 
