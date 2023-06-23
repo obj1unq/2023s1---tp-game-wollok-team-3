@@ -73,9 +73,19 @@ class Tablero {
 	}
 
 	method ponerUnNumeroCon(unaLista) {
+		console.println("iniciando ponerUnNumeroCon")
+		
 		const coordenadaAleatoria = unaLista.vacias().anyOne()
-		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(coordenada.posicionX(coordenadaAleatoria), coordenada.posicionY(coordenadaAleatoria)), numero = self.minasAlrededorDe(coordenadaAleatoria)))
+		
+		console.println("celdasDelTableroAdd")
+		
+		celdasDelTablero.add(new Celda(estado = oculto, position = game.at(coordenada.posicionX(coordenadaAleatoria), coordenada.posicionY(coordenadaAleatoria)), numero = self.minasAlrededorDe(coordenadaAleatoria, unaLista)))
+		
+		console.println("eliminarDe")
+		
 		unaLista.eliminarDe(unaLista.vacias(), coordenadaAleatoria)
+		
+		console.println("FIN")
 	}
 
 	method hayMinaAl(unaCoordenada, direccion, unaLista) = if (unaLista.minadas().contains(coordenada.desplazarHacia(unaCoordenada, direccion))) 1 else 0
@@ -83,8 +93,11 @@ class Tablero {
 	method minasAlrededorDe(unaCoordenada, unaLista) = self.hayMinaAl(unaCoordenada, norte, unaLista) + self.hayMinaAl(unaCoordenada, noreste, unaLista) + self.hayMinaAl(unaCoordenada, este, unaLista) + self.hayMinaAl(unaCoordenada, sureste, unaLista) + self.hayMinaAl(unaCoordenada, sur, unaLista) + self.hayMinaAl(unaCoordenada, suroeste, unaLista) + self.hayMinaAl(unaCoordenada, oeste, unaLista) + self.hayMinaAl(unaCoordenada, noroeste, unaLista)
 
 	method prepararCon(unaLista) {
+	
 		self.prepararCeldasEn(unaLista)
+	
 		self.prepararMinasEn(unaLista)
+		
 		self.ponerNumerosCon(unaLista)
 	}
 
@@ -107,8 +120,9 @@ object juego {
 		
 		//2do - Seteamos y dibujamos el tablero
 		nivelTablero.prepararCon(unaLista)
-		nivelTablero.celdasDelTablero().forEach({ celda => game.addVisual(celda)})
 		
+		nivelTablero.celdasDelTablero().forEach({ celda => game.addVisual(celda)})
+	
 		//3ro - Añadimos el cursor al final
 		game.addVisualCharacter(cursor)
 	}

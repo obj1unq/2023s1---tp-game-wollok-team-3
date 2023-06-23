@@ -8,15 +8,6 @@ object menuInicio {
 	
 	method image(){
 		
-		/*
-		if(nivelDificultad.nivel().equals(facil)){
-			return "assets/Menu_Facil.jpg"
-		}else if(nivelDificultad.nivel().equals(medio)){
-			return "assets/Menu_Medio.jpg"
-		}else{
-			return "assets/Menu_Dificil.jpg"
-		}*/
-		
 		return nivelDificultad.nivel().image()
 		
 	}
@@ -66,7 +57,7 @@ object nivelDificultad {
 class Dificultad{
 	
 	const nroMinas
-	const property tablero = new Tablero(minasTotal = nroMinas, ancho = 20, largo = 30)
+	const property tablero = new Tablero(minasTotal = nroMinas, ancho = 10, largo = 10)
 }
 
 object facil inherits Dificultad(nroMinas = 10){
