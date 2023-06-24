@@ -79,13 +79,24 @@ class Tablero {
 		
 		console.println("celdasDelTableroAdd")
 		
-		celdasDelTablero.add(new Celda( position = game.at(coordenada.posicionX(coordenadaAleatoria), coordenada.posicionY(coordenadaAleatoria)), numero = self.minasAlrededorDe(coordenadaAleatoria, unaLista)))
+		celdasDelTablero.add(new Celda( position = game.at(coordenada.posicionX(coordenadaAleatoria), coordenada.posicionY(coordenadaAleatoria)), contenido = self.construirContenido(coordenadaAleatoria, unaLista)))
 		
 		console.println("eliminarDe")
 		
 		unaLista.eliminarDe(unaLista.vacias(), coordenadaAleatoria)
 		
 		console.println("FIN")
+	}
+
+	method construirContenido(coordenadaAleatoria, unaLista){
+		const cantidad = self.minasAlrededorDe(coordenadaAleatoria, unaLista) 
+		return( 
+			if(cantidad > 0){
+				new Numero(numero = cantidad)
+			} else {
+				vacia
+			}
+		)
 	}
 
 	method hayMinaAl(unaCoordenada, direccion, unaLista) = if (unaLista.minadas().contains(coordenada.desplazarHacia(unaCoordenada, direccion))) 1 else 0
@@ -99,6 +110,10 @@ class Tablero {
 		self.prepararMinasEn(unaLista)
 		
 		self.ponerNumerosCon(unaLista)
+	}
+
+	method contienePosicion(posicion){
+		return posicion.x().between(0, self.ancho() - 1) and posicion.y().between(0, self.largo() - 1)
 	}
 
 }

@@ -25,6 +25,9 @@ object cursor {
 		
 	}
 	
+	method revelar(){
+		
+	}
 	
 	
 }

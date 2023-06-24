@@ -1,12 +1,13 @@
 import wollok.game.*
 import cursor.*
+import coordenadas.*
+import menu_inicio.*
 
 class Celda {
 	
 	var estado = oculto
-	const numero = 0
 	var property position 
-	var tieneBomba = false
+	var contenido = vacia
 	
 	method estado(cambioDeEstado){
 		estado = cambioDeEstado
@@ -23,45 +24,84 @@ class Celda {
 	}
 	
 	method insertarBomba(){
-		self.tieneBomba(true)
+		contenido = bomba
 	}
-	
-//	method numero(_numero){
-//		numero = _numero
-//	}
-
-	method numero() = numero
 	
 	method marcada(){
 		estado =  marcada
 	} 
 	
 	method revelar(){
-		estado = revelado
+		estado.revelar(self)
 	} 
 	
-	method tieneBomba(cambio){
-		tieneBomba = cambio
+	method contenido(){
+		return contenido
 	}
 	
-	method tieneBomba(){
-		return tieneBomba
+	method revelarVecinos(){
+		self.vecinos().forEach({celda => celda.revelar()})
 	}
 	
+	method vecinos(){
+		const posiciones = [
+			game.at(self.position().x() - 1, self.position().y()),
+			game.at(self.position().x() - 1, self.position().y() - 1),
+			game.at(self.position().x() - 1, self.position().y() + 1),
+			game.at(self.position().x() + 1, self.position().y()),
+			game.at(self.position().x() + 1, self.position().y() - 1),
+			game.at(self.position().x() + 1, self.position().y() + 1),
+			game.at(self.position().x() , self.position().y() - 1),
+			game.at(self.position().x() , self.position().y() + 1)
+		]
+		
+		return posiciones.filter({posicion => nivelDificultad.contiene(posicion)}).flatMap({posicion => game.getObjectsIn(posicion)})
+	}
+	
+
+
 }
 
 
-class Bomba{
+object bomba{
 	
-	method image(celda) = "minaExplotada.png"
+	method image() = "minaExplotada.png"
 	
+	method revelar(celda){
+		game.say(cursor, "Perdiste")
+	}
 }
 
+
+class Numero{
+	var numero = 0
+	
+	method image() = "numero" + numero + ".png"
+	
+	method revelar(celda){
+		
+	}
+}
+
+object vacia{
+	
+	method image() = "celdaReveladaSinBomba.png"
+	
+	method revelar(celda){
+		celda.revelarVecinos()
+	}
+	
+}
 
 
 class Estado{
 	
 	method image(celda)
+	
+	method revelar(celda){
+		
+	}
+	
 }
 
 
@@ -69,35 +109,18 @@ object oculto inherits Estado{
 	
 	override method image(celda) = "celdaSinMarcar.png"
 	
+	override method revelar(celda){
+		celda.estado(revelado)
+		celda.contenido().revelar(celda)
+	}
 
 }
+
 object revelado inherits Estado {
 	
 	override method image(celda) {
 		return(
-			if(celda.tieneBomba()){
-				"minaExplotada.png"
-			} else if (celda.numero() == 0) {
-				"celdaReveladaSinBomba.png"
-			} else if (celda.numero() == 1) {
-				"numero1.png"
-			} else if (celda.numero() == 2) {
-				"numero2.png"
-			} else if (celda.numero() == 3) {
-				"numero3.png"
-			} else if (celda.numero() == 4) {
-				"numero4.png"
-			} else if (celda.numero() == 5) {
-				"numero5.png"
-			} else if (celda.numero() == 6) {
-				"numero6.png"
-			} else if (celda.numero() == 7) {
-				"numero7.png"
-			} else {
-				console.println("No tiene numero/Bomba" + celda.numero())
-				"numero8.png"
-				//self.error("No tiene numero/Bomba" + celda.numero() ) 
-			}
+			celda.contenido().image()
 		)
 	}	
 }

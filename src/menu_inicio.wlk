@@ -52,12 +52,23 @@ object nivelDificultad {
 		nivel = dificil
 		
 	}
+	
+	method contiene(posicion) {
+		return nivel.contienePosicion(posicion)
+	}
+	
+	
 }
 
 class Dificultad{
 	
 	const nroMinas
 	const property tablero = new Tablero(minasTotal = nroMinas, ancho = 10, largo = 10)
+	
+	method contienePosicion(posicion){
+		return tablero.contienePosicion(posicion)
+	}
+	
 }
 
 object facil inherits Dificultad(nroMinas = 10){
