@@ -5,7 +5,8 @@ object coordenada {
 	method posicionY(unaLista) = unaLista.last()
 	
 	method desplazarHacia(unaLista, direccion) = direccion.desplazamientoXY(unaLista)
-
+	
+	method vecinosDe(unaLista) = [self.desplazarHacia(unaLista, norte), self.desplazarHacia(unaLista, noreste), self.desplazarHacia(unaLista, este), self.desplazarHacia(unaLista, sureste), self.desplazarHacia(unaLista, sur), self.desplazarHacia(unaLista, suroeste), self.desplazarHacia(unaLista, oeste), self.desplazarHacia(unaLista, noroeste)]
 }
 
 object listaDeCoordenadas {

@@ -1,4 +1,5 @@
 import wollok.game.*
+import celda.*
 
 object cursor {
 	
@@ -21,8 +22,7 @@ object cursor {
 		
 		//Siempre colisiono con una celda en mi posicion
 		game.uniqueCollider(self).marcada()
-
-		
+			
 	}
 	
 	method revelar(){

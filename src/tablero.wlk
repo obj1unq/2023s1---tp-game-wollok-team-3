@@ -4,12 +4,10 @@ import wollok.game.*
 import menu_inicio.*
 import cursor.*
 
-
-
 class Tablero {
 
-	const ancho 	 // = 0 // Número
-	const largo 	 // = 0 // Número
+	const ancho // = 0 // Número
+	const largo // = 0 // Número
 	const minasTotal // = 0 // Número
 	const celdasDelTablero = [] // [Celda]
 
@@ -64,8 +62,7 @@ class Tablero {
 	}
 
 	method ponerUnaCeldaMinadaEn(unaCoordenada) {
-		celdasDelTablero.add(new Celda( position = game.at(coordenada.posicionX(unaCoordenada), coordenada.posicionY(unaCoordenada)))) // Añade una nueva celda a la lista
-		celdasDelTablero.last().insertarBomba() // Inserta una mina en esta
+		celdasDelTablero.add(new Celda(position = game.at(coordenada.posicionX(unaCoordenada), coordenada.posicionY(unaCoordenada)), contenido = bomba)) // Añade una nueva celda a la lista con la mina.
 	}
 
 	method ponerNumerosCon(unaLista) {
@@ -74,29 +71,22 @@ class Tablero {
 
 	method ponerUnNumeroCon(unaLista) {
 		console.println("iniciando ponerUnNumeroCon")
-		
 		const coordenadaAleatoria = unaLista.vacias().anyOne()
-		
 		console.println("celdasDelTableroAdd")
-		
-		celdasDelTablero.add(new Celda( position = game.at(coordenada.posicionX(coordenadaAleatoria), coordenada.posicionY(coordenadaAleatoria)), contenido = self.construirContenido(coordenadaAleatoria, unaLista)))
-		
+		celdasDelTablero.add(new Celda(position = game.at(coordenada.posicionX(coordenadaAleatoria), coordenada.posicionY(coordenadaAleatoria)), contenido = self.construirContenido(coordenadaAleatoria, unaLista)))
 		console.println("eliminarDe")
-		
 		unaLista.eliminarDe(unaLista.vacias(), coordenadaAleatoria)
-		
 		console.println("FIN")
 	}
 
-	method construirContenido(coordenadaAleatoria, unaLista){
-		const cantidad = self.minasAlrededorDe(coordenadaAleatoria, unaLista) 
-		return( 
-			if(cantidad > 0){
-				new Numero(numero = cantidad)
-			} else {
-				vacia
-			}
-		)
+	method construirContenido(coordenadaAleatoria, unaLista) {
+		const cantidad = self.minasAlrededorDe(coordenadaAleatoria, unaLista)
+		return ( 
+			if (cantidad > 0) {
+			new Numero(numero = cantidad)
+		} else {
+			vacia
+		} )
 	}
 
 	method hayMinaAl(unaCoordenada, direccion, unaLista) = if (unaLista.minadas().contains(coordenada.desplazarHacia(unaCoordenada, direccion))) 1 else 0
@@ -104,15 +94,12 @@ class Tablero {
 	method minasAlrededorDe(unaCoordenada, unaLista) = self.hayMinaAl(unaCoordenada, norte, unaLista) + self.hayMinaAl(unaCoordenada, noreste, unaLista) + self.hayMinaAl(unaCoordenada, este, unaLista) + self.hayMinaAl(unaCoordenada, sureste, unaLista) + self.hayMinaAl(unaCoordenada, sur, unaLista) + self.hayMinaAl(unaCoordenada, suroeste, unaLista) + self.hayMinaAl(unaCoordenada, oeste, unaLista) + self.hayMinaAl(unaCoordenada, noroeste, unaLista)
 
 	method prepararCon(unaLista) {
-	
 		self.prepararCeldasEn(unaLista)
-	
 		self.prepararMinasEn(unaLista)
-		
 		self.ponerNumerosCon(unaLista)
 	}
 
-	method contienePosicion(posicion){
+	method contienePosicion(posicion) {
 		return posicion.x().between(0, self.ancho() - 1) and posicion.y().between(0, self.largo() - 1)
 	}
 
@@ -120,25 +107,14 @@ class Tablero {
 
 object juego {
 
-	//Ya se define las dimensiones en juego.wpgm
-	/*
-	method ajustarDimensiones() {
-		game.width(30)
-		game.height(20)
-	}*/
-
 	method configurar(nivelTablero, unaLista) {
-		//self.ajustarDimensiones()
-		
-		//1ro - Borramos el menu
+		// self.ajustarDimensiones()
+		// 1ro - Borramos el menu
 		game.removeVisual(menuInicio)
-		
-		//2do - Seteamos y dibujamos el tablero
+		// 2do - Seteamos y dibujamos el tablero
 		nivelTablero.prepararCon(unaLista)
-		
 		nivelTablero.celdasDelTablero().forEach({ celda => game.addVisual(celda)})
-	
-		//3ro - Añadimos el cursor al final
+		// 3ro - Añadimos el cursor al final
 		game.addVisualCharacter(cursor)
 	}
 
