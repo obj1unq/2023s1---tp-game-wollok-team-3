@@ -78,13 +78,13 @@ object facil inherits Dificultad(nroMinas = 10){
 	
 	
 }
-object medio inherits Dificultad(nroMinas = 15){
+object medio inherits Dificultad(nroMinas = 20){
 	
 	method image() = "assets/Menu_Medio.jpg"
 	
 	
 }
-object dificil inherits Dificultad(nroMinas = 20){
+object dificil inherits Dificultad(nroMinas = 30){
 	
 	method image() = "assets/Menu_Dificil.jpg"
 	
