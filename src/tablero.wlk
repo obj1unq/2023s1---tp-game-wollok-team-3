@@ -102,6 +102,10 @@ class Tablero {
 	method contienePosicion(posicion) {
 		return posicion.x().between(0, self.ancho() - 1) and posicion.y().between(0, self.largo() - 1)
 	}
+	
+	method celdasConBomba() = celdasDelTablero.filter({celda => celda.tieneBomba()})
+	
+	method celdasVaciasYConNumeros() = celdasDelTablero.filter({celda => not celda.tieneBomba()})
 
 }
 

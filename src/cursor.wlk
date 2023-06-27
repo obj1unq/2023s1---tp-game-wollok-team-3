@@ -20,9 +20,9 @@ object cursor {
 
 	method marcarCelda(){
 		
-		//Siempre colisiono con una celda en mi posicion
+		// Siempre colisiono con una celda en mi posicion
 		game.uniqueCollider(self).marcada()
-			
+		// Falta poder desmarcar con la misma letra m la celda	
 	}
 	
 	method revelar(){
