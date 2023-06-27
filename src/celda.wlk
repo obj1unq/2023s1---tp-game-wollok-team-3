@@ -27,13 +27,25 @@ class Celda {
 		contenido = bomba
 	}
 	
+	method tieneBomba() {
+		return contenido == bomba
+	}
+	
 	method marcada(){
 		estado =  marcada
 	} 
 	
-	method revelar(){
+	method estaMarcada() {
+		return estado == marcada
+	}
+	
+	method revelar() {
 		estado.revelar(self)
-	} 
+	}
+	
+	method estaRevelada() {
+		return estado == revelado
+	}
 	
 	method contenido(){
 		return contenido
