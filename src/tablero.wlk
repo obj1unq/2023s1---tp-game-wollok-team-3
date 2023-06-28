@@ -121,6 +121,25 @@ object juego {
 		// 3ro - Añadimos el cursor al final
 		game.addVisualCharacter(cursor)
 	}
+	
+	method todasMinasMarcadas(tablero) {
+		return tablero.celdasConBomba().all({celda => celda.estaMarcada()})
+	}
+	
+	method todasVaciasReveladas(tablero) {
+		return tablero.celdasVaciasYConNumeros().all({celda => celda.estaRevelada()})
+	}
+	
+	method condicionesVictoria(tablero) {
+		return self.todasMinasMarcadas(tablero) or self.todasVaciasReveladas(tablero)
+	}
+	
+	method victoria(tablero) {
+		if (self.condicionesVictoria(tablero)) {
+			game.say(cursor, "Ganaste")
+			game.onTick(5000, "Cerrar", { => game.stop()})
+		}
+	}
 
 }
 
