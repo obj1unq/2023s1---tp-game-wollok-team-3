@@ -47,6 +47,10 @@ class Celda {
 		return estado == revelado
 	}
 	
+	method ocultar() {
+		self.estado(oculto)
+	}
+	
 	method contenido(){
 		return contenido
 	}
@@ -81,6 +85,7 @@ object bomba{
 	
 	method revelar(celda){
 		game.say(cursor, "Perdiste")
+		game.onTick(5000, "Cerrar", { => game.stop()})
 	}
 }
 
