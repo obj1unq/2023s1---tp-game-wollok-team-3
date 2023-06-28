@@ -22,7 +22,7 @@ program juego {
 	
 	
 	//Establecemos los controles
-	keyboard.space().onPressDo { cursor.revelarCelda(facil.tablero())} { cursor.revelarCelda(medio.tablero())} { cursor.revelarCelda(dificil.tablero())}
+	keyboard.space().onPressDo { cursor.revelarCelda(nivelDificultad.nivel().tablero())}
 	keyboard.m().onPressDo { cursor.marcarCelda()} { cursor.desmarcarCelda()}
 	
 	
