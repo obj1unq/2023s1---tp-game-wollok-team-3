@@ -24,15 +24,19 @@ object cursor {
 	method marcarCelda(){
 		
 		// Siempre colisiono con una celda en mi posicion
-		game.uniqueCollider(self).marcada()
-		// Falta poder desmarcar con la misma letra m la celda	
+		if(!game.uniqueCollider(self).estaMarcada()){ //Si NO esta marcada
+			game.uniqueCollider(self).marcada()	//Poner Bandera
+		}else{
+			game.uniqueCollider(self).ocultar()	//Ocultar bandera
+		}
+		
 	}
-	
+	/*
 	method desmarcarCelda() {
 		if (game.uniqueCollider(self).estaMarcada()) {
 			game.uniqueCollider(self).ocultar()
 		}
-	}
+	}*/
 	
 	method revelar(){
 		

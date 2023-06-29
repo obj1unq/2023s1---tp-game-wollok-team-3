@@ -85,7 +85,7 @@ object bomba{
 	
 	method revelar(celda){
 		game.say(cursor, "Perdiste")
-		game.onTick(5000, "Cerrar", { => game.stop()})
+		game.onTick(2000, "Cerrar", { => game.stop()})
 	}
 }
 
